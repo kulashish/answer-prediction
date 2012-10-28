@@ -10,27 +10,20 @@ import java.util.ArrayList;
 import weka.core.Attribute;
 import weka.core.Instances;
 
-public class TrainingSet extends StudentsSet{
+public class TestSet extends StudentsSet {
 
-	/*
-	 * Creates TrainingSet instance from the CSV files present in a folder whose
-	 * path is provided to the constructor
-	 */
-	public TrainingSet(String path) throws IOException, ParseException {
+	public TestSet(String path) throws IOException, ParseException {
 		instances = new Instances("student",
 				(ArrayList<Attribute>) new AttributesBuilder().build(), 100);
 
-		File trainFolder = new File(path);
-		for (File file : trainFolder.listFiles())
+		File testFolder = new File(path);
+		for (File file : testFolder.listFiles())
 			populate(file);
 	}
 
-	/*
-	 * Populates training instances from the instances present in the CSV file
-	 */
-	private void populate(File trainFile) throws IOException, ParseException {
-		System.out.println("Populating from " + trainFile.getName());
-		StudentsData data = new StudentsData(trainFile, false);
+	private void populate(File testFile) throws IOException, ParseException {
+		System.out.println("Populating from " + testFile.getName());
+		StudentsData data = new StudentsData(testFile, true);
 		StudentObject stud = null;
 		StudentAttributes[] studentInstances = null;
 		AttributesBuilder builder = new AttributesBuilder();
@@ -45,25 +38,21 @@ public class TrainingSet extends StudentsSet{
 				instances.add(studentInstance.createWekaInstance());
 		}
 		data.close();
-		System.out.println("Populated " + instances.size()
-				+ " instances");
+		System.out.println("Populated " + instances.size() + " instances");
 	}
 
-	/*
-	 * Expects two arguments - folder containing the CSV files and path to
-	 * output ARFF file
-	 */
 	public static void main(String args[]) {
 		String path = args[0];
 		String arffFile = args[1];
-		TrainingSet train = null;
+		TestSet test = null;
 		try {
-			System.out.println("Creating training set...");
-			train = new TrainingSet(path);
-			train.serializeARFF(arffFile);
+			System.out.println("Creating test set...");
+			test = new TestSet(path);
+			test.serializeARFF(arffFile);
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Training set created!");
+		System.out.println("Test set created!");
 	}
+
 }

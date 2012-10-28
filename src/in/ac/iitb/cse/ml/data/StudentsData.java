@@ -8,13 +8,16 @@ import java.text.ParseException;
 
 public class StudentsData {
 	private BufferedReader reader;
+	private boolean blnTest;
 
-	public StudentsData(String file) throws IOException {
+	public StudentsData(String file, boolean test) throws IOException {
+		blnTest = test;
 		reader = new BufferedReader(new FileReader(file));
 		reader.readLine();
 	}
 
-	public StudentsData(File file) throws IOException {
+	public StudentsData(File file, boolean test) throws IOException {
+		blnTest = test;
 		reader = new BufferedReader(new FileReader(file));
 		reader.readLine();
 	}
@@ -23,7 +26,8 @@ public class StudentsData {
 		StudentObject t = null;
 		String line = reader.readLine();
 		if (null != line)
-			t = new StudentObject(line);
+			t = blnTest ? StudentObject.createTestStudent(line)
+					: new StudentObject(line);
 		return t;
 	}
 

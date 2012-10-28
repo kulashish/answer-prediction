@@ -26,6 +26,45 @@ public class StudentObject {
 	private Date testDate;
 	private int quesSetId;
 
+	public StudentObject() {
+
+	}
+
+	public static StudentObject createTestStudent(String line)
+			throws ParseException {
+		StudentObject stud = new StudentObject();
+		String[] attribs = line.split(",");
+		int index = 0;
+		// setCorrect(Integer.parseInt(attribs[0]) == 1);
+		// setOutcome(Integer.parseInt(attribs[index]));
+		stud.setUserID(Integer.parseInt(attribs[index++]));
+		stud.setQuesID(Long.parseLong(attribs[index++]));
+		stud.setQuesType(Integer.parseInt(attribs[index++]));
+		stud.setGroupName(Integer.parseInt(attribs[index++]));
+		stud.setTrackName(Integer.parseInt(attribs[index++]));
+		stud.setSubtrackName(Integer.parseInt(attribs[index++]));
+		stud.setTags(attribs[index++].split(" "));
+		stud.setStartedAt(attribs[index] == null
+				|| attribs[index].equalsIgnoreCase("NULL") ? null
+				: new SimpleDateFormat(DATE_PATTERN).parse(attribs[index++]));
+		stud.setAnsweredAt(attribs[index] == null
+				|| attribs[index].equalsIgnoreCase("NULL") ? null
+				: new SimpleDateFormat(DATE_PATTERN).parse(attribs[index++]));
+		stud.setDeactivatedAt(attribs[index] == null
+				|| attribs[index].equalsIgnoreCase("NULL") ? null
+				: new SimpleDateFormat(DATE_PATTERN).parse(attribs[index++]));
+		// setAnsId(Integer.parseInt(attribs[index++]));
+		stud.setGameType(Integer.parseInt(attribs[index++]));
+		stud.setNumPlayers(Integer.parseInt(attribs[index++]));
+		stud.setTestDate(attribs[index] == null
+				|| attribs[index].equalsIgnoreCase("NULL") ? null
+				: new SimpleDateFormat(TEST_DATE_PATTERN)
+						.parse(attribs[index++]));
+		if (!attribs[index].equalsIgnoreCase("NULL"))
+			stud.setQuesSetId(Integer.parseInt(attribs[index++]));
+		return stud;
+	}
+
 	public StudentObject(String line) throws ParseException {
 		String[] attribs = line.split(",");
 		setCorrect(Integer.parseInt(attribs[0]) == 1);
